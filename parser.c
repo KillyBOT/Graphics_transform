@@ -149,7 +149,7 @@ void parse_file ( char * filename,
       fgets(parameters,255,f);
       parameters[strlen(parameters)-1]='\0';
 
-      save_ppm(s,parameters);
+      save_extension(s,parameters);
     }
 
     else if( !strcmp(line,"quit")){

@@ -58,10 +58,10 @@ angle of rotation and X as the axis of rotation.
 struct matrix * make_rotX(double theta) {
   struct matrix* tMatrix = new_matrix(4,4);
 
-  add_point_2(tMatrix,cos(theta),0,-sin(theta),0);
-  add_point_2(tMatrix,0,1,0,0);
-  add_point_2(tMatrix,sin(theta),0,cos(theta),0);
-  add_point_2(tMatrix,0,0,0,1);
+  add_point_2(tMatrix, 1,0,0,0);
+  add_point_2(tMatrix, 0,cos(theta),sin(theta),0);
+  add_point_2(tMatrix, 0,-sin(theta),cos(theta),0);
+  add_point_2(tMatrix, 0,0,0,1);
 
   return tMatrix;
 }
@@ -75,10 +75,10 @@ angle of rotation and Y as the axis of rotation.
 struct matrix * make_rotY(double theta) {
   struct matrix* tMatrix = new_matrix(4,4);
 
-  add_point_2(tMatrix, 1,0,0,0);
-  add_point_2(tMatrix, 0,cos(theta),sin(theta),0);
-  add_point_2(tMatrix, 0,-sin(theta),cos(theta),0);
-  add_point_2(tMatrix, 0,0,0,1);
+  add_point_2(tMatrix,cos(theta),0,-sin(theta),0);
+  add_point_2(tMatrix,0,1,0,0);
+  add_point_2(tMatrix,sin(theta),0,cos(theta),0);
+  add_point_2(tMatrix,0,0,0,1);
 
   return tMatrix;
 }
