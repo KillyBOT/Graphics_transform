@@ -24,8 +24,10 @@ as the translation offsets.
 struct matrix * make_translate(double x, double y, double z) {
   struct matrix* tMatrix = new_matrix(4,4);
 
-  add_edge(tMatrix, 1, 0, 0, 0, 0, 1, 0, 0);
-  add_edge(tMatrix, 0, 0, 1, 0, x, y, z, 1);
+  add_point_2(tMatrix, 1,0,0,0);
+  add_point_2(tMatrix, 0,1,0,0);
+  add_point_2(tMatrix, 0,0,1,0);
+  add_point_2(tMatrix, x,y,z,1);
 
   return tMatrix;
 }
@@ -40,9 +42,10 @@ as the scale factors
 struct matrix * make_scale(double x, double y, double z) {
   struct matrix* tMatrix = new_matrix(4,4);
 
-  add_edge(tMatrix, x, 0, 0, 0, 0, y, 0, 0);
-  add_edge(tMatrix, 0, 0, z, 0, 0, 0, 0, 1);
-
+  add_point_2(tMatrix, x,0,0,0);
+  add_point_2(tMatrix, 0,y,0,0);
+  add_point_2(tMatrix, 0,0,z,0);
+  add_point_2(tMatrix, 0,0,0,1);
   return tMatrix;
 }
 
@@ -55,8 +58,10 @@ angle of rotation and X as the axis of rotation.
 struct matrix * make_rotX(double theta) {
   struct matrix* tMatrix = new_matrix(4,4);
 
-  add_edge(1,0,0,0,0,cos(theta),sin(theta),0);
-  add_edge(0,-sin(theta),cos(theta),0,0,0,0,1);
+  add_point_2(tMatrix,cos(theta),0,-sin(theta),0);
+  add_point_2(tMatrix,0,1,0,0);
+  add_point_2(tMatrix,sin(theta),0,cos(theta),0);
+  add_point_2(tMatrix,0,0,0,1);
 
   return tMatrix;
 }
@@ -70,8 +75,10 @@ angle of rotation and Y as the axis of rotation.
 struct matrix * make_rotY(double theta) {
   struct matrix* tMatrix = new_matrix(4,4);
 
-  add_edge(cos(theta),0,-sin(theta),0,0,1,0,0);
-  add_edge(sin(theta),0,cos(theta),0,0,0,0,1);
+  add_point_2(tMatrix, 1,0,0,0);
+  add_point_2(tMatrix, 0,cos(theta),sin(theta),0);
+  add_point_2(tMatrix, 0,-sin(theta),cos(theta),0);
+  add_point_2(tMatrix, 0,0,0,1);
 
   return tMatrix;
 }
@@ -85,8 +92,10 @@ angle of rotation and Z as the axis of rotation.
 struct matrix * make_rotZ(double theta) {
   struct matrix* tMatrix = new_matrix(4,4);
 
-  add_edge(cos(theta),sin(theta),0,0,-sin(theta),cos(theta),0,0);
-  add_edge(0,0,1,0,0,0,0,1);
+  add_point_2(tMatrix,cos(theta),sin(theta),0,0);
+  add_point_2(tMatrix,-sin(theta),cos(theta),0,0);
+  add_point_2(tMatrix,0,0,1,0);
+  add_point_2(tMatrix,0,0,0,1);
 
   return tMatrix;
 }

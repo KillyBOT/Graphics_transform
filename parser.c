@@ -58,9 +58,12 @@ void parse_file ( char * filename,
                   screen s) {
 
   FILE *f;
+  struct matrix* mToAdd = NULL;
   char line[256];
   char parameters[256];
   double eToAdd[6];
+  char axis;
+  color c = {MAX_COLOR,MAX_COLOR,MAX_COLOR};
   clear_screen(s);
 
   if ( strcmp(filename, "stdin") == 0 )
@@ -72,13 +75,91 @@ void parse_file ( char * filename,
     line[strlen(line)-1]='\0';
     printf(":%s:\n",line);
 
-    if(!strcmp(line,"line")){
+    if( !strcmp(line,"line") ){
       fgets(parameters,255,f);
       parameters[strlen(parameters)-1]='\0';
 
-      sscanf(parameters,"%f %f %f %f %f %f",eToAdd[0],eToAdd[1],eToAdd[2],eToAdd[3],eToAdd[4],eToAdd[5]);
+      sscanf(parameters,"%lf %lf %lf %lf %lf %lf",&eToAdd[0],&eToAdd[1],&eToAdd[2],&eToAdd[3],&eToAdd[4],&eToAdd[5]);
 
-      add_edge(edges,eToAdd[0],eToAdd[1],eToAdd[2],0,[])
+      add_edge(edges,eToAdd[0],eToAdd[1],eToAdd[2],eToAdd[3],eToAdd[4],eToAdd[5]);
+    }
+
+    else if( !strcmp(line,"ident") ){
+      free_matrix(transform);
+
+      transform = new_matrix(4,4);
+      ident(transform);
+    }
+
+    else if( !strcmp(line,"scale")){
+      fgets(parameters,255,f);
+      parameters[strlen(parameters)-1]='\0';
+
+      sscanf(parameters,"%lf %lf %lf",&eToAdd[0],&eToAdd[1],&eToAdd[2]);
+
+      mToAdd = make_scale(eToAdd[0],eToAdd[1],eToAdd[2]);
+      matrix_mult(mToAdd,transform);
+
+      free_matrix(mToAdd);
+    }
+
+    else if( !strcmp(line,"move")){
+      fgets(parameters,255,f);
+      parameters[strlen(parameters)-1]='\0';
+
+      sscanf(parameters,"%lf %lf %lf",&eToAdd[0],&eToAdd[1],&eToAdd[2]);
+
+      mToAdd = make_translate(eToAdd[0],eToAdd[1],eToAdd[2]);
+
+      matrix_mult(mToAdd,transform);
+
+      free_matrix(mToAdd);
+    }
+
+    else if ( !strcmp(line,"rotate")){
+      fgets(parameters,255,f);
+      parameters[strlen(parameters)-1]='\0';
+
+      sscanf(parameters,"%c %lf",&axis,&eToAdd[0]);
+
+      eToAdd[0] *= (M_PI / 180);
+
+      if(axis == 'x') mToAdd = make_rotX(eToAdd[0]);
+      else if (axis == 'y') mToAdd = make_rotY(eToAdd[0]);
+      else if (axis == 'z') mToAdd = make_rotZ(eToAdd[0]);
+
+      matrix_mult(mToAdd,transform);
+
+      free_matrix(mToAdd);
+    }
+
+    else if( !strcmp(line,"apply") ){
+      matrix_mult(transform,edges);
+    }
+
+    else if( !strcmp(line,"display")){
+      clear_screen(s);
+
+      draw_lines(edges,s,c);
+
+      display(s);
+    }
+
+    else if( !strcmp(line,"save")){
+      fgets(parameters,255,f);
+      parameters[strlen(parameters)-1]='\0';
+
+      save_ppm(s,parameters);
+    }
+
+    else if( !strcmp(line,"quit")){
+      printf("End of script\n");
+      break;
+    }
+
+    else {
+      printf("Unknown command. Ending...\n");
+      break;
     }
   }
 }

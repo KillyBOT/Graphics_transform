@@ -5,7 +5,7 @@
 #include "ml6.h"
 
 void add_point( struct matrix * points, double x, double y, double z);
-void add_point_better(struct matrix* m, double x, double y, double z, double n);
+void add_point_2(struct matrix* m, double x, double y, double z, double n);
 void add_edge( struct matrix * points,
 	       double x0, double y0, double z0,
 	       double x1, double y1, double z1);
