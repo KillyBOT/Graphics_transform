@@ -44,9 +44,9 @@ void clear_screen( screen s ) {
   int x, y;
   color c;
 
-  c.red = DEFAULT_COLOR;
-  c.green = DEFAULT_COLOR;
-  c.blue = DEFAULT_COLOR;
+  c.red = MAX_COLOR;
+  c.green = MAX_COLOR;
+  c.blue = MAX_COLOR;
 
   for ( y=0; y < YRES; y++ )
     for ( x=0; x < XRES; x++)      

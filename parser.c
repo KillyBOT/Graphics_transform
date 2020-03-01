@@ -63,7 +63,7 @@ void parse_file ( char * filename,
   char parameters[256];
   double eToAdd[6];
   char axis;
-  color c = {MAX_COLOR,MAX_COLOR,MAX_COLOR};
+  color c = {0,0,0};
   clear_screen(s);
 
   if ( strcmp(filename, "stdin") == 0 )
